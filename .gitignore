@@ -1,0 +1,63 @@
+# ========================
+# Java / Maven Build
+# ========================
+**/target/
+*.class
+*.jar
+!**/newrelic.jar
+*.war
+*.ear
+.mvn/
+mvnw
+mvnw.cmd
+
+# ========================
+# Node / NPM (Frontend)
+# ========================
+**/node_modules/
+**/build/
+.npm
+*.log
+npm-debug.log*
+
+# ========================
+# IDE / Editor Files
+# ========================
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ========================
+# Terraform
+# ========================
+infra/.terraform/
+infra/terraform.tfstate
+infra/terraform.tfstate.backup
+infra/tfplan
+infra/*.log
+
+# ========================
+# Environment & Secrets
+# ========================
+.env
+.env.*
+*.env
+# Local Spring profiles with real credentials — NEVER commit these
+application-local.properties
+application-local.yml
+
+# ========================
+# Docker
+# ========================
+*.dockerignore
+docker-compose.override.yml
+
+# ========================
+# Operating System
+# ========================
+**/.DS_Store
+**/Thumbs.db

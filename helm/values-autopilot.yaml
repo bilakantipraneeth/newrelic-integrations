@@ -1,0 +1,63 @@
+global:
+  # The cluster name for the Kubernetes cluster.
+  cluster: nr-gke-autopilot
+
+  # The license key for your New Relic Account. 
+  # Note: Set this via CLI or CI/CD secrets injected into the helm command
+  licenseKey: "" 
+  
+  # The provider that's running your cluster
+  provider: GKE_AUTOPILOT
+
+  # (bool) Reduces number of metrics sent in order to reduce costs
+  lowDataMode: true
+
+  # (bool) Must be false on Autopilot due to security constraints
+  privileged: false
+
+newrelic-infrastructure:
+  enabled: true
+
+nri-prometheus:
+  enabled: false
+
+nri-metadata-injection:
+  enabled: true
+
+kube-state-metrics:
+  enabled: true
+
+nri-kube-events:
+  enabled: true
+
+newrelic-logging:
+  enabled: true
+  fluentBit:
+    # What path will be mounted to read logs from the node
+    linuxMountPath: /var/log
+    persistence:
+      # Fluent Bit persistence is needed to keep track of tailed logs, if set to none data loss or logs duplications could happen. 
+      # Autopilot constraint: Must be set to 'none' mode
+      mode: none
+
+newrelic-pixie:
+  enabled: false
+
+pixie-chart:
+  enabled: false
+
+newrelic-infra-operator:
+  enabled: false
+
+newrelic-prometheus-agent:
+  enabled: true
+
+nr-ebpf-agent:
+  # eBPF requires privileged host access which Autopilot strictly denies
+  enabled: false
+
+k8s-agents-operator:
+  enabled: true
+
+newrelic-k8s-metrics-adapter:
+  enabled: false

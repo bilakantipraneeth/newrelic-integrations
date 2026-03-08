@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingestion-service
+  labels:
+    app: ingestion-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ingestion-service
+  template:
+    metadata:
+      labels:
+        app: ingestion-service
+    spec:
+      containers:
+        - name: ingestion-service
+          image: "{{ .Values.registry }}/ingestion-service:{{ .Values.tag }}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: {{ .Values.ingestionService.port }}
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{ .Values.global.springProfile | quote }}
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: {{ .Values.global.eurekaUrl | quote }}
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: platform-secrets
+                  key: MONGODB_URI
+            - name: NEW_RELIC_LICENSE_KEY
+              value: {{ .Values.global.apm.licenseKey | quote }}
+            - name: NEW_RELIC_APP_NAME
+              value: "ingestion-service"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingestion-service
+spec:
+  selector:
+    app: ingestion-service
+  ports:
+    - protocol: TCP
+      port: {{ .Values.ingestionService.port }}
+      targetPort: {{ .Values.ingestionService.port }}

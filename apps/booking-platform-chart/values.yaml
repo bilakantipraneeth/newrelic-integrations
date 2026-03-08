@@ -1,0 +1,36 @@
+global:
+  apm:
+    enabled: true
+    # Injected securely by Terraform at deployment time
+    licenseKey: ""
+  # Spring profile to activate inside the container
+  springProfile: "gcp"
+  # In-cluster Eureka URL (points to the discovery-server K8s Service)
+  eurekaUrl: "http://discovery-server:8761/eureka"
+  # External API Gateway URL for the frontend (set to the LoadBalancer IP after deploy)
+  # Example: http://34.68.1.2
+  apiGatewayUrl: "http://REPLACE_WITH_GATEWAY_IP"
+
+# Common settings
+registry: us-central1-docker.pkg.dev/praneeth1211-gcp-pilot/newrelic-platform
+tag: latest
+
+# Microservices
+apiGateway:
+  port: 8080
+discoveryServer:
+  port: 8761
+userService:
+  port: 8081
+bookingService:
+  port: 8083
+inventoryService:
+  port: 8082
+paymentService:
+  port: 8084
+ingestionService:
+  port: 8086
+notificationService:
+  port: 8087
+frontend:
+  port: 80

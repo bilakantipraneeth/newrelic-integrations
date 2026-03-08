@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: booking-service
+  labels:
+    app: booking-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: booking-service
+  template:
+    metadata:
+      labels:
+        app: booking-service
+    spec:
+      containers:
+        - name: booking-service
+          image: "{{ .Values.registry }}/booking-service:{{ .Values.tag }}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: {{ .Values.bookingService.port }}
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{ .Values.global.springProfile | quote }}
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: {{ .Values.global.eurekaUrl | quote }}
+            - name: NEW_RELIC_LICENSE_KEY
+              value: {{ .Values.global.apm.licenseKey | quote }}
+            - name: NEW_RELIC_APP_NAME
+              value: "booking-service"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: booking-service
+spec:
+  selector:
+    app: booking-service
+  ports:
+    - protocol: TCP
+      port: {{ .Values.bookingService.port }}
+      targetPort: {{ .Values.bookingService.port }}

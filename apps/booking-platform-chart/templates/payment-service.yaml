@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-service
+  labels:
+    app: payment-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-service
+  template:
+    metadata:
+      labels:
+        app: payment-service
+    spec:
+      containers:
+        - name: payment-service
+          image: "{{ .Values.registry }}/payment-service:{{ .Values.tag }}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: {{ .Values.paymentService.port }}
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{ .Values.global.springProfile | quote }}
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: {{ .Values.global.eurekaUrl | quote }}
+            - name: NEW_RELIC_LICENSE_KEY
+              value: {{ .Values.global.apm.licenseKey | quote }}
+            - name: NEW_RELIC_APP_NAME
+              value: "payment-service"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service
+spec:
+  selector:
+    app: payment-service
+  ports:
+    - protocol: TCP
+      port: {{ .Values.paymentService.port }}
+      targetPort: {{ .Values.paymentService.port }}

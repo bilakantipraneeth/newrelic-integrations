@@ -1,0 +1,13 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: ingestion-service
+  data:
+    mongodb:
+      # URI is injected at runtime via MONGODB_URI environment variable
+      # For local dev: set MONGODB_URI in your shell or .env file
+      # For GKE: injected by the ingestion-service Helm template
+      uri: ${MONGODB_URI}
+

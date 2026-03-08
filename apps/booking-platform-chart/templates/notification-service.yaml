@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-service
+  labels:
+    app: notification-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification-service
+  template:
+    metadata:
+      labels:
+        app: notification-service
+    spec:
+      containers:
+        - name: notification-service
+          image: "{{ .Values.registry }}/notification-service:{{ .Values.tag }}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: {{ .Values.notificationService.port }}
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{ .Values.global.springProfile | quote }}
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: {{ .Values.global.eurekaUrl | quote }}
+            - name: NEW_RELIC_LICENSE_KEY
+              value: {{ .Values.global.apm.licenseKey | quote }}
+            - name: NEW_RELIC_APP_NAME
+              value: "notification-service"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-service
+spec:
+  selector:
+    app: notification-service
+  ports:
+    - protocol: TCP
+      port: {{ .Values.notificationService.port }}
+      targetPort: {{ .Values.notificationService.port }}

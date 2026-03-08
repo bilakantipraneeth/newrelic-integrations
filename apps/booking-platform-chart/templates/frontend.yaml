@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: "{{ .Values.registry }}/frontend:{{ .Values.tag }}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: {{ .Values.frontend.port }}
+          env:
+            - name: REACT_APP_API_URL
+              value: {{ .Values.global.apiGatewayUrl | quote }}
+            - name: REACT_APP_PAYMENT_URL
+              value: {{ .Values.global.apiGatewayUrl | quote }}
+            - name: REACT_APP_INGESTION_URL
+              value: {{ .Values.global.apiGatewayUrl | quote }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  type: LoadBalancer
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: {{ .Values.frontend.port }}
+      targetPort: {{ .Values.frontend.port }}
