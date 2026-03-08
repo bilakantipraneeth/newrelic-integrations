@@ -4,20 +4,6 @@ server:
 spring:
   application:
     name: inventory-service
-  datasource:
-    url: jdbc:h2:mem:inventorydb
-    driverClassName: org.h2.Driver
-    username: sa
-    password: password
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: update
-  h2:
-    console:
-      enabled: true
-
-
-logging:
-  file:
-    name: inventory.log
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}

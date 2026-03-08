@@ -4,16 +4,9 @@ server:
 spring:
   application:
     name: booking-service
-  datasource:
-    url: jdbc:h2:mem:bookingdb
-    driverClassName: org.h2.Driver
-    username: sa
-    password: password
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: update
-  h2:
-    console:
-      enabled: true
-
+  data:
+    mongodb:
+      # URI is injected at runtime via MONGODB_URI environment variable
+      # For local dev: set in application-local.yml (gitignored)
+      # For GKE: read from platform-secrets K8s Secret via Helm secretKeyRef
+      uri: ${MONGODB_URI}

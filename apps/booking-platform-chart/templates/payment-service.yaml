@@ -25,6 +25,11 @@ spec:
               value: {{ .Values.global.springProfile | quote }}
             - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
               value: {{ .Values.global.eurekaUrl | quote }}
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: platform-secrets
+                  key: MONGODB_URI
             - name: NEW_RELIC_LICENSE_KEY
               value: {{ .Values.global.apm.licenseKey | quote }}
             - name: NEW_RELIC_APP_NAME
