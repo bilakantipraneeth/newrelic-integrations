@@ -92,6 +92,7 @@ The `infra/` directory manages:
 - GCP VPC + Subnet + Cloud NAT
 - GKE Autopilot Cluster
 - New Relic Dashboards and Alert Policies
+- New Relic Kubernetes Integration (`nri-bundle`)
 - Booking Platform Helm Chart (via `local-exec`)
 
 ```powershell
