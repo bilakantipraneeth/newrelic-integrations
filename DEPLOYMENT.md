@@ -213,10 +213,6 @@ Frontend is available at `http://localhost:3000`.
 ```
 newrelic-integrations/
 ├── apps/
-│   ├── booking-platform-chart/   # Unified Helm chart for all services
-│   │   ├── Chart.yaml
-│   │   ├── values.yaml           # Central config (profiles, ports, registry)
-│   │   └── templates/            # K8s Deployment + Service per microservice
 │   ├── booking-service/          # Spring Boot microservice
 │   ├── user-service/
 │   ├── inventory-service/
@@ -226,6 +222,13 @@ newrelic-integrations/
 │   ├── discovery-server/         # Eureka service registry
 │   ├── api-gateway/              # Spring Cloud Gateway (public entry point)
 │   └── frontend/                 # React frontend (Nginx)
+├── helm/
+│   ├── booking-platform-chart/   # Unified Helm chart for all services
+│   │   ├── Chart.yaml
+│   │   ├── values.yaml           # Central config (profiles, ports, registry)
+│   │   └── templates/            # K8s Deployment + Service per microservice
+│   ├── deploy-newrelic.sh        # New Relic infra deploy script
+│   └── values-autopilot.yaml     # NRI-bundle config for Autopilot
 ├── infra/
 │   ├── main.tf                   # GKE Autopilot cluster
 │   ├── network.tf                # VPC, Subnet, Cloud NAT
@@ -234,6 +237,7 @@ newrelic-integrations/
 │   ├── outputs.tf                # Cluster endpoint, etc.
 │   ├── booking_platform_local_exec.tf  # Helm deploy via local-exec
 │   ├── newrelic_alerts.tf        # Alert policy + conditions
-│   └── newrelic_dashboards.tf    # GKE SRE dashboard
+│   ├── newrelic_dashboards.tf    # GKE SRE dashboard
+│   └── newrelic_infrastructure.tf # NR Infrastructure via local-exec
 └── DEPLOYMENT.md                 # This file
 ```

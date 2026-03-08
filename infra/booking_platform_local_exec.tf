@@ -5,7 +5,7 @@ resource "null_resource" "booking_platform_deploy" {
   # Trigger a re-run if the values file or license key changes
   triggers = {
     license_key   = var.newrelic_license_key
-    values_sha    = filebase64sha256("${path.module}/../apps/booking-platform-chart/values.yaml")
+    values_sha    = filebase64sha256("${path.module}/../helm/booking-platform-chart/values.yaml")
     cluster_name  = google_container_cluster.autopilot_cluster.name
     project_id    = var.project_id
     region        = var.region
@@ -17,7 +17,7 @@ resource "null_resource" "booking_platform_deploy" {
     command     = <<EOT
       gcloud container clusters get-credentials ${google_container_cluster.autopilot_cluster.name} --region ${var.region} --project ${var.project_id}; 
       kubectl create namespace platform-central --dry-run=client -o yaml | kubectl apply -f -; 
-      helm upgrade --install booking-platform ${path.module}/../apps/booking-platform-chart --namespace platform-central --set global.apm.licenseKey=${var.newrelic_license_key}
+      helm upgrade --install booking-platform ${path.module}/../helm/booking-platform-chart --namespace platform-central --set global.apm.licenseKey=${var.newrelic_license_key}
     EOT
   }
 

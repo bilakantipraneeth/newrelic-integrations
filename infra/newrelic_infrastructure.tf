@@ -17,12 +17,9 @@ resource "null_resource" "newrelic_k8s_integration" {
       helm upgrade --install newrelic-bundle newrelic/nri-bundle `
         --namespace newrelic `
         --create-namespace `
+        -f ${path.module}/../helm/values-autopilot.yaml `
         --set global.licenseKey=${var.newrelic_license_key} `
-        --set global.cluster=${var.cluster_name} `
-        --set newrelic-infrastructure.enabled=true `
-        --set kubeEvents.enabled=true `
-        --set logging.enabled=true `
-        --set ksps.enabled=true
+        --set global.cluster=${var.cluster_name}
     EOT
   }
 
