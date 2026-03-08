@@ -31,14 +31,14 @@ public class InventoryController {
     }
 
     @GetMapping("/resources/{id}")
-    public ResponseEntity<Resource> getResourceById(@PathVariable Long id) {
+    public ResponseEntity<Resource> getResourceById(@PathVariable String id) {
         return inventoryService.getResourceById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/resources/{id}")
-    public ResponseEntity<Void> deleteResource(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteResource(@PathVariable String id) {
         inventoryService.deleteResource(id);
         return ResponseEntity.noContent().build();
     }

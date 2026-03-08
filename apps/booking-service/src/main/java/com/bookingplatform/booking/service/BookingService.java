@@ -28,11 +28,11 @@ public class BookingService {
         return bookingRepository.findAll();
     }
 
-    public Optional<Booking> getBookingById(Long id) {
+    public Optional<Booking> getBookingById(String id) {
         return bookingRepository.findById(id);
     }
 
-    public void cancelBooking(Long id) {
+    public void cancelBooking(String id) {
         bookingRepository.findById(id).ifPresent(booking -> {
             booking.setStatus("CANCELLED");
             bookingRepository.save(booking);

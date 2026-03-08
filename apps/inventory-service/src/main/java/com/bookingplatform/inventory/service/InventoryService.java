@@ -22,11 +22,11 @@ public class InventoryService {
         return resourceRepository.save(resource);
     }
 
-    public Optional<Resource> getResourceById(Long id) {
+    public Optional<Resource> getResourceById(String id) {
         return resourceRepository.findById(id);
     }
 
-    public void deleteResource(Long id) {
+    public void deleteResource(String id) {
         resourceRepository.deleteById(id);
     }
 }
