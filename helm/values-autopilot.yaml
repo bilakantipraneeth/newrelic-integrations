@@ -1,6 +1,6 @@
 global:
   # The cluster name for the Kubernetes cluster.
-  cluster: nr-gke-autopilot
+  cluster: booking-platform-v2
 
   # The license key for your New Relic Account. 
   # Note: Set this via CLI or CI/CD secrets injected into the helm command

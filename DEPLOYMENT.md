@@ -124,7 +124,7 @@ terraform apply `
 
 ```powershell
 # Fetch cluster credentials
-gcloud container clusters get-credentials nr-gke-autopilot `
+gcloud container clusters get-credentials booking-platform-v2 `
   --region us-central1 `
   --project praneeth1211-gcp-pilot
 

@@ -12,7 +12,7 @@ variable "region" {
 variable "cluster_name" {
   type        = string
   description = "The name of the GKE Autopilot cluster"
-  default     = "nr-gke-autopilot"
+  default     = "booking-platform-v2"
 }
 
 variable "network_name" {
