@@ -1,0 +1,20 @@
+# Stage 1: Build/Download the agent
+FROM mcr.microsoft.com/openjdk/jdk:17-azurelinux AS agent-builder
+WORKDIR /tmp
+RUN tdnf clean all && \
+    tdnf upgrade -y && \
+    tdnf install -y unzip curl && \
+    curl -O https://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic-java.zip && \
+    unzip newrelic-java.zip && \
+    mkdir -p newrelic/logs
+
+# Stage 2: Final Base Image
+FROM mcr.microsoft.com/openjdk/jdk:17-distroless
+LABEL description="Base image with New Relic Java Agent"
+
+# Copy the prepared agent folder
+COPY --from=agent-builder /tmp/newrelic /usr/local/newrelic/
+
+# Pre-configure environment variables
+ENV JAVA_TOOL_OPTIONS="-javaagent:/usr/local/newrelic/newrelic.jar"
+ENV NEW_RELIC_LOG_FILE_NAME="STDOUT"
